@@ -1,9 +1,10 @@
 #!/usr/bin python
 
 class Node :
-    def __init__(self,data,next=None):
+    def __init__(self,data,next=None,prev=None):
         self.data=data #데이터 저장
         self.next=next #링크저장
+        self.prev=prev
 
 def init_list():
     global node_A
@@ -14,20 +15,27 @@ def init_list():
 
     node_A.next=node_B
     node_B.next=node_D
+    node_B.prev=node_A
     node_D.next=node_E
+    node_D.prev=node_B
+
 
 def delete_node(del_data):
     global node_A
     pre_node =node_A
     next_node=pre_node.next
+    next_next_node=next_node.next
 
     if pre_node.data==del_data:
         node_A=next_node
         del pre_node
         return
+
     while next_node:
         if next_node.data==del_data:
+            next_next_node.next=next_node.next
             pre_node.next=next_node.next
+            next_next_node.prev=next_node.prev
             del next_node
             break
         pre_node=next_node
@@ -43,6 +51,9 @@ def insert_node(data):
         node_T=node_T.next
     new_node.next=node_T
     node_P.next=new_node
+    new_node.prev=node_P
+    node_T.prev=new_node
+
 
 
 def print_list():
